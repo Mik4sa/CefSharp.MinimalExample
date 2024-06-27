@@ -19,10 +19,12 @@ namespace CefSharp.MinimalExample.WinForms
             CefRuntime.SubscribeAnyCpuAssemblyResolver();
 #endif
 
+            var rootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\RootCache");
+
             var settings = new CefSettings()
             {
                 //By default CefSharp will use an in-memory cache, you need to specify a Cache Folder to persist data
-                CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Cache")
+                RootCachePath = rootCachePath
             };
 
             //Example of setting a command line argument
@@ -49,6 +51,10 @@ namespace CefSharp.MinimalExample.WinForms
 
             Application.EnableVisualStyles();
             Application.Run(new BrowserForm());
+
+            Cef.Shutdown();
+
+            Directory.Delete(rootCachePath, true);
 
             return 0;
         }
